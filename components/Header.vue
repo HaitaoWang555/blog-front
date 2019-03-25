@@ -1,7 +1,7 @@
 <template>
   <div class="header">
     <v-toolbar app>
-      <v-toolbar-side-icon class="hidden-sm-and-up" @click="drawer = !drawer" />
+      <v-toolbar-side-icon class="hidden-md-and-up" @click="drawer = !drawer" />
       <img style="width: 40px;height: 40px;" src="/v.png" />
       <v-toolbar-title>{{ title }}</v-toolbar-title>
       <v-spacer></v-spacer>
