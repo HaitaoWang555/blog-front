@@ -1,13 +1,51 @@
 <template>
-  <div style="height: 1958px;" class="archive">archive</div>
+  <div class="archive">
+    <v-timeline>
+      <v-timeline-item
+        v-for="(item, i) in archive"
+        :key="i"
+        :color="item.color || 'primary'"
+        small
+      >
+        <template v-slot:opposite>
+          <span
+            :class="`headline font-weight-bold ${item.color || 'primary'}--text`"
+            v-text="item.dateStr"
+          ></span>
+        </template>
+        <div v-for="article in item.articles" :key="article.id" class="py-2">
+          <div>
+            <span class="text--secondary">
+              {{ article.created | time('MM-dd') }}
+            </span>            
+            <nuxt-link :to="{ path: '/article/'+article.id }" style="width: 100%">
+              {{ article.title }}
+            </nuxt-link>
+          </div>
+        </div>
+      </v-timeline-item>
+    </v-timeline>
+  </div>
 </template>
 
 <script>
+import { getList } from '@/api/archive'
+
 export default {
   name: 'Archive',
-  components: {},
+  head() {
+    return { title: `标签页` }
+  },
+  async asyncData(context) {
+    const { data: archive } = await getList()
+    return {
+      archive
+    }
+  },
   data() {
-    return {}
+    return {
+      archive: null
+    }
   }
 }
 </script>

@@ -10,7 +10,7 @@
               <nuxt-link :to="{ path: '/article/'+item.id }" style="width: 100%">
                 <v-list-tile-content>
                   <v-list-tile-title>
-                    <span class="text--primary">{{ item.title }}</span>
+                    <span>{{ item.title }}</span>
                   </v-list-tile-title>
                 </v-list-tile-content>
               </nuxt-link>
