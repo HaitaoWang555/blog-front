@@ -27,11 +27,13 @@ export default {
     return { title: `标签页` }
   },
   async asyncData(context) {
+    const { tag } = context.params
     const { data: tagData } = await getList()
+    const item = tag ? tagData.find(i => i.name === tag) : tagData[0]
     return {
       tagData,
-      articles: tagData[0].articles,
-      activeTag: tagData[0].name
+      articles: item.articles,
+      activeTag: item.name
     }
   },
   components: {

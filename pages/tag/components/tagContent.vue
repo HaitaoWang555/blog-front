@@ -6,12 +6,14 @@
           <template
             v-for="(item, index) in content"
           >
-            <v-list-tile v-ripple :key="item.id"  @click="linkTo(item.id)">
-              <v-list-tile-content>
-                <v-list-tile-title>
-                  <span class="text--primary">{{ item.title }}</span>
-                </v-list-tile-title>
-              </v-list-tile-content>
+            <v-list-tile v-ripple :key="item.id">
+              <nuxt-link :to="{ path: '/article/'+item.id }" style="width: 100%">
+                <v-list-tile-content>
+                  <v-list-tile-title>
+                    <span class="text--primary">{{ item.title }}</span>
+                  </v-list-tile-title>
+                </v-list-tile-content>
+              </nuxt-link>
             </v-list-tile>
 
             <v-divider v-if="index + 1 < content.length" :key="'divider' + item.id"></v-divider>
