@@ -33,7 +33,8 @@ module.exports = {
   ],
   modules: [],
   plugins: [
-    { src: '@/plugins/vuetify' }
+    { src: '@/plugins/vuetify' },
+    { src: '@/plugins/global' }
   ],
   router: {},
   /*
