@@ -27,18 +27,18 @@
 
 <script>
 import Content from '@/components/content'
-import { getList } from '@/api/tag'
+import { getList } from '@/api/category'
 
 export default {
-  name: 'Tag',
+  name: 'Category',
   head() {
-    return { title: `标签页` }
+    return { title: `归档` }
   },
   async asyncData(context) {
-    const { tag } = context.params
+    const { category } = context.params
     const { data: tagData } = await getList()
-    let item = tag ? tagData.find(i => i.name === tag) : tagData[0]
-    if (!item) item = { name: '未知标签', articles: null }
+    let item = category ? tagData.find(i => i.name === category) : tagData[0]
+    if (!item) item = { name: '未知分类', articles: null }
     return {
       tagData,
       articles: item.articles,
