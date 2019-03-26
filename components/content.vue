@@ -1,8 +1,8 @@
 <template>
-  <div class="tagContent elevation-8 mt-4">
-      <v-list v-if="content && content.length > 0" subheader>
+  <div class="content elevation-8 mt-4">
+      <v-list subheader>
         <v-subheader class="headline">{{ title }}</v-subheader>
-        <v-slide-x-reverse-transition group mode="in-out">
+        <v-slide-x-reverse-transition v-if="content && content.length > 0"  group mode="in-out">
           <template
             v-for="(item, index) in content"
           >
@@ -25,7 +25,7 @@
 
 <script>
 export default {
-  name: 'TagContent',
+  name: 'Content',
   props: {
     content: {
       type: Array,
@@ -36,13 +36,6 @@ export default {
     title: {
       type: String,
       default: ''
-    }
-  },
-  methods: {
-    linkTo(id) {
-      this.$router.push({
-        path: '/article/' + id
-      })
     }
   }
 }
