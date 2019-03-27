@@ -6,8 +6,7 @@
         :key="index"
         :color="item.color || 'primary'"
         :text-color="item.textColor || 'white'"
-        style="padding: 0 10px;"
-        :class="{'elevation-8': item.name === activeTag, 'pointer': true}"
+        :class="{'elevation-8': item.name === activeTag, 'pointer': true, 'px-3': true}"
         @click="clickTag(item)"
       >
         <v-badge
