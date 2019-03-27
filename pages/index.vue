@@ -1,5 +1,5 @@
 <template>
-  <v-layout column align-start justify-start>
+  <v-layout column align-center justify-start>
     <v-flex xs12 sm8 md6>
       <Article :data="articleData.list"/>
     </v-flex>
