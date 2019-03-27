@@ -31,7 +31,7 @@ import { getList } from '@/api/category'
 export default {
   name: 'Category',
   head() {
-    return { title: `归档` }
+    return { title: `分类` }
   },
   async asyncData(context) {
     const { category } = context.params

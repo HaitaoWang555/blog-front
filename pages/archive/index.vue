@@ -34,7 +34,7 @@ import { getList } from '@/api/archive'
 export default {
   name: 'Archive',
   head() {
-    return { title: `标签页` }
+    return { title: `归档` }
   },
   async asyncData(context) {
     const { data: archive } = await getList()

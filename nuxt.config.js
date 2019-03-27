@@ -1,4 +1,5 @@
 import VuetifyLoaderPlugin from 'vuetify-loader/lib/plugin'
+import serveConfig from './config/server-config'
 
 // noinspection JSAnnotator
 module.exports = {
@@ -6,8 +7,8 @@ module.exports = {
   ** Headers of the page
   */
   head: {
-    title: 'Blog',
-    titleTemplate: '%s - blog',
+    title: serveConfig.blogName,
+    titleTemplate: `%s - ${serveConfig.blogName}`,
     meta: [
       { charset: 'utf-8' },
       { 'http-equiv': 'cleartype', content: 'on' },

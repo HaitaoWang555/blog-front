@@ -31,7 +31,7 @@ import { getList } from '@/api/tag'
 export default {
   name: 'Tag',
   head() {
-    return { title: `标签页` }
+    return { title: `标签` }
   },
   async asyncData(context) {
     const { tag } = context.params
