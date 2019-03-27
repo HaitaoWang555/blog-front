@@ -1,7 +1,7 @@
 <template>
   <v-layout column align-center justify-start>
     <v-flex xs12 sm8 md6>
-      <Article :data="articleData" :model="model"/>
+      <Article :data="[articleData]" :model="model"/>
     </v-flex>
   </v-layout>
 </template>
@@ -11,7 +11,7 @@ import Article from '@/components/Article'
 import { getOneById } from '@/api/article'
 
 export default {
-  name: 'Article',
+  name: 'ArticleId',
   head() {
     return { title: `${this.articleData.title}` }
   },
