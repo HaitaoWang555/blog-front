@@ -1,10 +1,14 @@
 <template>
-  <v-app>
+  <v-app style="max-width: 1920px;">
     <Header></Header>
     <v-content>
       <v-container>
         <v-fade-transition mode="out-in">
-          <nuxt></nuxt>
+          <v-layout row align-start justify-center>
+            <v-flex xs12 sm8 md6>
+              <nuxt></nuxt>
+            </v-flex>
+          </v-layout>
         </v-fade-transition>
       </v-container>
     </v-content>

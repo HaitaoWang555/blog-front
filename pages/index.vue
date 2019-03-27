@@ -1,9 +1,5 @@
 <template>
-  <v-layout column align-center justify-start>
-    <v-flex xs12 sm8 md6>
-      <Article :data="articleData.list"/>
-    </v-flex>
-  </v-layout>
+    <Article :data="articleData.list"/>
 </template>
 
 <script>
