@@ -7,3 +7,10 @@ export function getList(limit, offect = 1) {
     params: { limit, offect }
   })
 }
+export function getOneById(id) {
+  return request({
+    url: '/article/getOne',
+    method: 'get',
+    params: { id }
+  })
+}
