@@ -6,3 +6,10 @@ export function getList() {
     method: 'get'
   })
 }
+export function getOneById(id) {
+  return request({
+    url: '/archive/getOne',
+    method: 'get',
+    params: { id }
+  })
+}
