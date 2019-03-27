@@ -1,9 +1,11 @@
 <template>
   <div v-if="data" class="articleHeader">
-    <div class="headline">{{ data.title }}</div>
-    <v-layout align-start justify-start class="mb-2">
+    <div class="headline font-weight-medium">
+      <nuxt-link :to="{ path: '/article/'+data.id }">{{data.title}}</nuxt-link>
+    </div>
+    <v-layout align-start justify-start>
       <span class="group pa-2">
-        <span class="mr-2">
+        <span class="mr-2 pointer" @click="clickTag(data.category, 'category')">
           <v-icon>folder</v-icon>
           {{ data.category }}
         </span>
@@ -21,6 +23,19 @@
         </span>
       </span>
     </v-layout>
+    <v-layout v-if="data.tags" align-start justify-start row wrap="true">
+      <v-chip
+        v-for="(item, index) in data.tags.split(',')"
+        :key="index"
+        small
+        outline
+        color="primary"
+        class="pointer px-3"
+        @click="clickTag(item)"
+      >
+        <span class="pointer">{{ item }}</span>
+      </v-chip>
+    </v-layout>
   </div>
 </template>
 
@@ -32,6 +47,15 @@ export default {
       type: Object,
       default: () => {
         return null
+      }
+    }
+  },
+  methods: {
+    clickTag(item, type) {
+      if (type === 'category') {
+        this.$router.push({ path: '/category/' + item })
+      } else {
+        this.$router.push({ path: '/tag/' + item })
       }
     }
   }

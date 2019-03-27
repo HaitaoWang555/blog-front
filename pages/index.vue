@@ -1,13 +1,13 @@
 <template>
   <v-layout column align-start justify-start>
     <v-flex xs12 sm8 md6>
-      <ArticleHeader :data="articleData.list[0]"/>
+      <Article :data="articleData.list"/>
     </v-flex>
   </v-layout>
 </template>
 
 <script>
-import ArticleHeader from '@/components/ArticleHeader'
+import Article from '@/components/Article'
 import { getList } from '@/api/article'
 
 export default {
@@ -22,7 +22,7 @@ export default {
     }
   },
   components: {
-    ArticleHeader
+    Article
   },
   data() {
     return {
