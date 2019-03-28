@@ -29,7 +29,6 @@
 </template>
 
 <script>
-import { getList } from '@/api/archive'
 
 export default {
   name: 'Archive',
@@ -37,7 +36,7 @@ export default {
     return { title: `归档` }
   },
   async asyncData(context) {
-    const { data: archive } = await getList()
+    const archive = await context.app.$axios.$get('/archive/list')
     return {
       archive
     }

@@ -26,7 +26,6 @@
 
 <script>
 import Content from '@/components/content'
-import { getList } from '@/api/category'
 
 export default {
   name: 'Category',
@@ -35,7 +34,7 @@ export default {
   },
   async asyncData(context) {
     const { category } = context.params
-    const { data: tagData } = await getList()
+    const tagData = await context.app.$axios.$get('/category/list')
     let item = category ? tagData.find(i => i.name === category) : tagData[0]
     if (!item) item = { name: '未知分类', articles: null }
     return {

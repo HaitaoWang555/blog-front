@@ -4,7 +4,6 @@
 
 <script>
 import Article from '@/components/Article'
-import { getOneById } from '@/api/article'
 
 export default {
   name: 'ArticleId',
@@ -12,8 +11,8 @@ export default {
     return { title: `${this.articleData.title}` }
   },
   async asyncData(context) {
-    const { id } = context.params
-    const { data: articleData } = await getOneById(id)
+    const params = context.params
+    const articleData = await context.app.$axios.$get('/article/getOne', { params })
     return {
       articleData
     }

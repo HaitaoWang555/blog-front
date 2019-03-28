@@ -4,7 +4,6 @@
 
 <script>
 import Article from '@/components/Article'
-import { getList } from '@/api/article'
 
 export default {
   name: 'Index',
@@ -12,7 +11,7 @@ export default {
     return { title: `首页` }
   },
   async asyncData(context) {
-    const { data: articleData } = await getList()
+    const articleData = await context.app.$axios.$get('/article/list')
     return {
       articleData
     }

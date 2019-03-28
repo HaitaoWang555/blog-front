@@ -32,10 +32,26 @@ module.exports = {
     { src: '~/assets/style/style.css' },
     { src: '~/assets/style/app.styl' }
   ],
-  modules: [],
+  modules: [
+    '@nuxtjs/axios',
+    '@nuxtjs/proxy'
+  ],
+  axios: {
+    proxy: true,
+    credentials: true
+  },
+  proxy: {
+    '/api': {
+      target: 'http://yapi.demo.qunar.com/mock/64650/',
+      pathRewrite: {
+        '^/api': '/'
+      }
+    }
+  },
   plugins: [
     { src: '@/plugins/vuetify' },
-    { src: '@/plugins/global' }
+    { src: '@/plugins/global' },
+    { src: '@/plugins/axios' }
   ],
   router: {
     // nuxt 的bug,scrollToTop不生效，要重写scrollBehavior方法
