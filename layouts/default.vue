@@ -1,7 +1,7 @@
 <template>
   <v-app style="max-width: 1920px;">
     <Header></Header>
-    <v-content>
+    <v-content class="mb-2">
       <v-container>
         <v-fade-transition mode="out-in">
           <v-layout row align-start justify-center>

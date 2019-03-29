@@ -3,24 +3,22 @@
     <div class="headline font-weight-medium">
       <nuxt-link :to="{ path: '/article/'+data.id }">{{data.title}}</nuxt-link>
     </div>
-    <v-layout align-start justify-start>
-      <span class="group pa-2">
-        <span class="mr-2 pointer" @click="clickTag(data.category, 'category')">
-          <v-icon>folder</v-icon>
-          {{ data.category }}
-        </span>
-        <span class="mx-2">
-          <v-icon>date_range</v-icon>
-          {{ data.created | time('yyyy-MM-dd') }}
-        </span>
-        <span class="mx-2">
-          <v-icon>visibility</v-icon>
-          {{ data.hits }}
-        </span>
-        <span class="mx-2">
-          <v-icon>mode_comment</v-icon>
-          {{ data.commentCount }}
-        </span>
+    <v-layout wrap align-start justify-start class="pa-2">
+      <span class="px-2 pointer" @click="clickTag(data.category, 'category')">
+        <v-icon>folder</v-icon>
+        {{ data.category }}
+      </span>
+      <span class="px-2">
+        <v-icon>date_range</v-icon>
+        {{ data.created | time('yyyy-MM-dd') }}
+      </span>
+      <span class="px-2">
+        <v-icon>visibility</v-icon>
+        {{ data.hits }}
+      </span>
+      <span class="px-2">
+        <v-icon>mode_comment</v-icon>
+        {{ data.commentCount }}
       </span>
     </v-layout>
     <v-layout v-if="data.tags" align-start justify-start row wrap="true">
