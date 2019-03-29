@@ -5,7 +5,7 @@
       <v-container>
         <v-fade-transition mode="out-in">
           <v-layout row align-start justify-center>
-            <v-flex xs12 sm8 md6>
+            <v-flex xs12 sm8 md8>
               <nuxt></nuxt>
             </v-flex>
           </v-layout>

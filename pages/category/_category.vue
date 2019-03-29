@@ -1,5 +1,5 @@
 <template>
-  <div style="height: 1958px;" class="text-xs-center">
+  <div class="text-xs-center">
     <v-layout align-start justify-start row wrap="true">
       <v-chip
         v-for="(item, index) in tagData"
