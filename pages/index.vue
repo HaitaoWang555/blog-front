@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Article :data="articleData.list"/>
+    <Article :data="articleData"/>
     <w-pagination :pageObj="pageObj" :changePage="changePage" />
   </div>
 </template>
@@ -15,12 +15,12 @@ export default {
     return { title: `首页` }
   },
   async asyncData(context) {
-    const articleData = await context.app.$axios.$get('/article/list')
+    const data = await context.app.$axios.$get('/article/list')
     return {
-      articleData,
+      articleData: data.items,
       pageObj: {
-        page: articleData.pageNum || 1,
-        totalPage: articleData.pages || null
+        page: 1,
+        totalPage: data.total || null
       }
     }
   },

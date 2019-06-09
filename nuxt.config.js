@@ -30,7 +30,8 @@ module.exports = {
    */
   css: [
     { src: '~/assets/style/style.css' },
-    { src: '~/assets/style/app.styl' }
+    { src: '~/assets/style/app.styl' },
+    'highlight.js/styles/tomorrow.css'
   ],
   modules: [
     '@nuxtjs/axios',
@@ -42,7 +43,7 @@ module.exports = {
   },
   proxy: {
     '/api': {
-      target: 'http://yapi.demo.qunar.com/mock/64650/',
+      target: 'http://127.0.0.1:7001',
       pathRewrite: {
         '^/api': '/'
       }

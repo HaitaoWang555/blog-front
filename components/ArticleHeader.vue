@@ -10,20 +10,20 @@
       </span>
       <span class="px-2">
         <v-icon>date_range</v-icon>
-        {{ data.created | time('yyyy-MM-dd') }}
+        {{ data.updated_at | time('yyyy-MM-dd') }}
       </span>
       <span class="px-2">
         <v-icon>visibility</v-icon>
-        {{ data.hits }}
+        {{ data.hits || 0 }}
       </span>
       <span class="px-2">
         <v-icon>mode_comment</v-icon>
-        {{ data.commentCount }}
+        {{ data.commentCount || 0 }}
       </span>
     </v-layout>
     <v-layout v-if="data.tags" align-start justify-start row wrap="true">
       <v-chip
-        v-for="(item, index) in data.tags.split(',')"
+        v-for="(item, index) in data.tags"
         :key="index"
         small
         outline
