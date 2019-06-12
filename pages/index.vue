@@ -1,6 +1,9 @@
 <template>
   <div>
-    <Article :data="articleData"/>
+    <Article
+      v-if="articleData && articleData.length > 0"
+      :data="articleData"
+    />
     <w-pagination :pageObj="pageObj" :changePage="changePage" />
   </div>
 </template>
@@ -20,7 +23,7 @@ export default {
       articleData: data.items,
       pageObj: {
         page: 1,
-        totalPage: data.total || null
+        total: data.total || null
       }
     }
   },
@@ -30,15 +33,19 @@ export default {
   },
   data() {
     return {
-      articleData: null
+      articleData: null,
+      pageObj: null
     }
   },
   methods: {
-    async changePage() {
+    async changePage(val) {
+      const page = this.pageObj.page
       const params = {
-        page: this.pageObj.page
+        page
       }
-      this.articleData = await this.$axios.$get('/article/list', { params })
+      const data = await this.$axios.$get('/article/list', { params })
+      this.articleData = data.items
+      this.pageObj.total = data.total
     }
   }
 }

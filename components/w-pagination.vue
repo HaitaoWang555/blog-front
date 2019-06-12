@@ -1,19 +1,22 @@
 <template>
   <div class="w-pagination">
     <v-layout row align-center justify-center>
+      <v-flex xs1 sm1 md1 class="text-xs-left">
+        <v-btn small>共{{ pageObj.total }}条</v-btn>
+      </v-flex>
       <v-flex class="text-xs-center">
         <v-pagination
           v-model="pageObj.page"
-          :length="pageObj.totalPage"
+          :length="totalPage"
           :total-visible="btnNum"
-          @input="changePage"
+          @input="goChange"
         ></v-pagination>
       </v-flex>
       <v-flex xs1 sm1 md1 class="text-xs-center">
         <v-text-field
-          v-model.number="pageIndex"
+          v-model.number="pageObj.page"
           type="number"
-          @change="jumper"
+          @change="goChange"
         ></v-text-field>
       </v-flex>
     </v-layout>
@@ -21,6 +24,8 @@
 </template>
 
 <script>
+const PAGE_SIZE = 15
+
 export default {
   name: 'WPagination',
   props: {
@@ -33,39 +38,35 @@ export default {
       defalut: () => {
         return {
           page: 1,
-          totalPage: 1
+          total: 1
         }
       }
     }
   },
   data() {
     return {
-      pageIndex: 1,
-      btnNum: 7
+      btnNum: 7,
+      savePage: 1
+    }
+  },
+  computed: {
+    totalPage() {
+      return this.pageObj.total ? Math.ceil(this.pageObj.total / PAGE_SIZE) : 0
     }
   },
   mounted() {
-    this.pageIndex = this.pageObj.page
     this.btnNum = window.innerWidth > 720 ? 7 : 4
   },
-  watch: {
-    pageObj: {
-      deep: true,
-      handler(val) {
-        this.pageIndex = val.page
-        this.$vuetify.goTo('html')
-      }
-    }
-  },
   methods: {
-    jumper() {
-      if (this.pageIndex > 0) {
-        this.pageObj.page = Math.ceil(this.pageIndex)
-        this.changePage()
-        this.$vuetify.goTo('html')
-      } else {
-        this.pageIndex = this.pageObj.page
+    goChange() {
+      const page = this.pageObj.page
+      if (this.totalPage < page || page < 0) {
+        this.pageObj.page = this.savePage
+        return
       }
+      this.savePage = this.pageObj.page
+      this.changePage()
+      this.$vuetify.goTo('html')
     }
   }
 }
