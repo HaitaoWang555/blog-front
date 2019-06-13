@@ -60,7 +60,7 @@ export default {
   methods: {
     goChange() {
       const page = this.pageObj.page
-      if (this.totalPage < page || page < 0) {
+      if (this.totalPage < page || page < 1) {
         this.pageObj.page = this.savePage
         return
       }
