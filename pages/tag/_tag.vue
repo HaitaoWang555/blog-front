@@ -14,7 +14,7 @@
           right
         >
           <template v-slot:badge>
-            <span>{{ item.count }}</span>
+            <span>{{ item.articles.length }}</span>
           </template>
           <span class="pointer">{{ item.name }}</span>
         </v-badge>

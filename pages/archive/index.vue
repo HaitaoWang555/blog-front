@@ -16,7 +16,7 @@
         <div v-for="article in item.articles" :key="article.id" class="py-2">
           <div>
             <span class="text--secondary">
-              {{ article.created | time('MM-dd') }}
+              {{ article.updated_at | time('MM-dd') }}
             </span>            
             <nuxt-link :to="{ path: '/article/'+article.id }" style="width: 100%">
               {{ article.title }}
