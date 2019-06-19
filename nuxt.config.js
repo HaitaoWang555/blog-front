@@ -31,7 +31,7 @@ module.exports = {
   css: [
     { src: '~/assets/style/style.css' },
     { src: '~/assets/style/app.styl' },
-    'highlight.js/styles/tomorrow.css'
+    'highlight.js/styles/github.css'
   ],
   modules: [
     '@nuxtjs/axios',
