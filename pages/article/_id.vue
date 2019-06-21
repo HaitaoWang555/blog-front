@@ -1,9 +1,13 @@
 <template>
+  <div>
     <Article :data="[articleData]" :model="model"/>
+    <comment :article-id="articleData.id" />
+  </div>
 </template>
 
 <script>
 import Article from '@/components/Article'
+import Comment from '@/components/Comment'
 
 export default {
   name: 'ArticleId',
@@ -18,7 +22,7 @@ export default {
     }
   },
   components: {
-    Article
+    Article, Comment
   },
   data() {
     return {
