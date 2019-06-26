@@ -4,17 +4,19 @@
         <span class="total">{{total}}条评论</span>
         <span class="line"></span>
       </div>
+      <CommentList />
       <CommentForm />
   </div>
 </template>
 
 <script>
 import CommentForm from './comment/comment-form'
+import CommentList from './comment/comment-list'
 
 export default {
   name: 'Comment',
   components: {
-    CommentForm
+    CommentForm, CommentList
   },
   data() {
     return {
@@ -41,7 +43,7 @@ export default {
     color: #24292e;
     background: #fff;
     font-weight: 500;
-    z-index: 99;
+    z-index: 1;
   }
 
   .comment-header .line {
