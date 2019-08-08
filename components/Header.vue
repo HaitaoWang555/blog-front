@@ -20,7 +20,7 @@
           >
             <v-avatar size="48px" tile>
               <img
-                src="https://cdn.vuetifyjs.com/images/logos/logo.svg"
+                :src="avatar"
                 alt="Vuetify"
               >
             </v-avatar>
@@ -28,14 +28,14 @@
         </template>
         <v-list>
           <template 
-            v-for="(item, index) in items"
+            v-for="(item, index) in lists"
           >
-            <v-list-tile :key="'list' + index">
+            <v-list-tile :key="'list' + index" @click.stop="open(item.type)">
               <v-list-tile-title style="min-width: 120px;text-align: center;cursor: pointer;">
                 {{ item.title }}
               </v-list-tile-title>
             </v-list-tile>
-            <v-divider v-if="index + 1 < items.length" :key="'divider' + index"></v-divider>
+            <v-divider v-if="index + 1 < lists.length" :key="'divider' + index"></v-divider>
           </template>
         </v-list>
       </v-menu>
@@ -70,12 +70,65 @@
         </v-list-tile>
       </v-list>
     </v-navigation-drawer>
+    <!-- 登录弹框 -->
+
+   <v-dialog
+      v-model="dialog"
+      persistent
+      max-width="450"
+    >
+      <Login v-if="loginForm" :close="closeDialog" :tips="showTips" />
+      <Register v-if="registerForm" :close="closeDialog" :tips="showTips" />
+    </v-dialog>
+
+    <v-snackbar
+      v-model="snackbar"
+      :color="color"
+      :timeout="timeout"
+      top
+    >
+      {{ tips }}
+      <v-btn
+        dark
+        text
+        @click="snackbar = false"
+      >
+        X
+      </v-btn>
+    </v-snackbar>
+
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+import { getUserInfo, removeToken } from '@/utils/store'
+import Login from '@/components/Login'
+import Register from '@/components/Register'
+
 export default {
   name: 'Header',
+  components: { Login, Register },
+  computed: {
+    ...mapGetters([
+      'isAuthenticated',
+      'loggedUser'
+    ]),
+    lists() {
+      const list = this.isAuthenticated
+        ? this.items.filter(i => i.show === 'login')
+        : this.items.filter(i => i.show === 'noLogin')
+      return list
+    },
+    avatar() {
+      return this.isAuthenticated
+        ? this.loggedUser.icon
+        : 'https://cdn.vuetifyjs.com/images/logos/logo.svg'
+    }
+  },
+  mounted() {
+    this.init()
+  },
   data() {
     return {
       title: 'Bolg',
@@ -87,10 +140,64 @@ export default {
         { path: '/about', name: '关于', icon: 'question_answer' }
       ],
       items: [
-        { title: '登录', type: 'login' },
-        { title: '退出', type: 'logout' }
+        { title: '登录', type: 'login', show: 'noLogin' },
+        { title: '注册', type: 'register', show: 'noLogin' },
+        { title: '退出', type: 'logout', show: 'login' }
       ],
-      drawer: null
+      drawer: null,
+      dialog: false,
+      snackbar: false,
+      loginForm: false,
+      registerForm: false,
+      tips: '',
+      color: '',
+      timeout: 4000
+    }
+  },
+  methods: {
+    init() {
+      const userInfo = getUserInfo()
+      if (userInfo) {
+        this.$store.commit('SET_USER', userInfo)
+      }
+    },
+    open(type) {
+      switch (type) {
+        case 'login':
+          this.loginForm = true
+          this.dialog = true
+          break
+        case 'logout':
+          this.logout()
+          break
+        case 'register':
+          this.registerForm = true
+          this.dialog = true
+          break
+
+        default:
+          break
+      }
+    },
+    showTips(color, tips) {
+      this.snackbar = true
+      this.tips = tips
+      this.color = color
+    },
+    closeDialog() {
+      this.dialog = false
+      this.loginForm = false
+      this.registerForm = false
+    },
+    async logout() {
+      const data = await this.$axios.$post('/user/logout')
+      if (!data) {
+        this.showTips('success', '退出成功')
+        removeToken()
+        location.reload()
+      } else {
+        this.showTips('error', data.message || '退出失败')
+      }
     }
   }
 }

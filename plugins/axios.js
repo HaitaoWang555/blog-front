@@ -20,7 +20,12 @@ export default function({ $axios, redirect }) {
   })
 
   $axios.onResponse(response => {
-    return response.data
+    const res = response.data
+    if (res.statusCode !== 0) {
+      return response
+    } else {
+      return response.data
+    }
   }, error => {
     return Promise.reject(error.message)
   })
