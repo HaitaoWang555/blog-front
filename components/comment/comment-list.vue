@@ -8,18 +8,18 @@
           avatar
         >
           <v-list-tile-avatar>
-            <img :src="item.avatar">
+            <img :src="item.userInfo.icon">
           </v-list-tile-avatar>
 
           <v-list-tile-content>
             <v-list-tile-title>
-              <span>{{ item.name }}<span class="px-2">说</span></span>
+              <span>{{ item.userInfo.username }}<span class="px-2">说</span></span>
             </v-list-tile-title>
-            <v-list-tile-sub-title v-html="item.subtitle"></v-list-tile-sub-title>
+            <v-list-tile-sub-title v-html="item.content"></v-list-tile-sub-title>
           </v-list-tile-content>
         </v-list-tile>
 
-        <comment-reply v-if="item.level" :p_id="item.id" :key="'reply' + index" />
+        <comment-reply v-if="item.level" :article-id="articleId" :p_id="item.id" :key="'reply' + index" />
         
         <v-divider v-if="index + 1 < items.length" :key="'divider' + index"></v-divider>
 
@@ -36,38 +36,33 @@ export default {
   components: {
     CommentReply
   },
+  props: {
+    articleId: {
+      type: String,
+      default: ''
+    }
+  },
   data() {
     return {
-      items: [
-        {
-          id: 'c79df6ef-3819-4693-9e1b-495a7184da03',
-          avatar: 'https://cdn.vuetifyjs.com/images/lists/1.jpg',
-          name: 'Brunch',
-          level: 1,
-          subtitle: "I'll be in your neighborhood doing errands this weekend. Do you want to hang out?"
-        },
-        {
-          id: 'c79df6ef-3819-4693-9e1b-495a7184da23',
-          avatar: 'https://cdn.vuetifyjs.com/images/lists/2.jpg',
-          name: 'Summer',
-          level: 0,
-          subtitle: "Wish I could come, but I'm out of town this weekend."
-        },
-        {
-          id: 'c79df6ef-3819-4693-9e1b-495a7184da41',
-          avatar: 'https://cdn.vuetifyjs.com/images/lists/4.jpg',
-          name: 'Birthday',
-          level: 0,
-          subtitle: 'Have any ideas about what we should get Heidi for her birthday?'
-        },
-        {
-          id: 'c79df6ef-3819-4693-9e1b-495a7184da42',
-          avatar: 'https://cdn.vuetifyjs.com/images/lists/5.jpg',
-          name: 'Recipe',
-          level: 0,
-          subtitle: 'We should eat this: Grate, Squash, Corn, and tomatillo Tacos.'
-        }
-      ]
+      items: []
+    }
+  },
+  created() {
+    if (this.articleId) {
+      this.init()
+    }
+  },
+  methods: {
+    async init() {
+      const params = {}
+      params.id = this.articleId
+      const data = await this.$axios.$get('/comment/list', { params })
+      if (data && !data.statusCode) {
+        this.initData(data)
+      }
+    },
+    initData(data) {
+      this.items = data
     }
   }
 }

@@ -30,6 +30,10 @@
 export default {
   name: 'CommentReply',
   props: {
+    articleId: {
+      type: String,
+      default: ''
+    },
     p_id: {
       type: String,
       default: null

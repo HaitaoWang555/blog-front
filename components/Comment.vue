@@ -4,8 +4,8 @@
         <span class="total">{{total}}条评论</span>
         <span class="line"></span>
       </div>
-      <CommentList />
-      <CommentForm />
+      <CommentList :article-id="articleId"/>
+      <CommentForm :article-id="articleId" />
   </div>
 </template>
 
@@ -17,6 +17,12 @@ export default {
   name: 'Comment',
   components: {
     CommentForm, CommentList
+  },
+  props: {
+    articleId: {
+      type: String,
+      default: ''
+    }
   },
   data() {
     return {
