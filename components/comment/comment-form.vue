@@ -10,7 +10,7 @@
             <v-textarea
               v-model="comment"
               name="comment"
-              label="评论"
+              :label="labelText"
               hint="支持markdown语法"
               required
               :rules="commentRules"
@@ -18,6 +18,13 @@
             ></v-textarea>
           </v-flex>
           <v-flex xs2 class="text-xs-center">
+            <v-btn
+              v-if="replyUserId"
+              color="error"
+              @click="close"
+            >
+              关闭
+            </v-btn>    
             <v-btn
               :disabled="!valid"
               color="primary"
@@ -42,6 +49,27 @@ export default {
     articleId: {
       type: String,
       default: ''
+    },
+    replyUserId: {
+      type: String,
+      default: ''
+    },
+    level: {
+      type: Number,
+      default: 0
+    },
+    label: {
+      type: String,
+      default: ''
+    },
+    close: {
+      type: Function,
+      default: null
+    }
+  },
+  computed: {
+    labelText() {
+      return this.label ? '您正在回复 ' + this.label : '评论'
     }
   },
   data() {
@@ -63,12 +91,21 @@ export default {
     async submit() {
       if (this.$refs.form.validate()) {
         const form = {}
+        if (!this.$store.state.user) {
+          this.showTips('error', '请先登录')
+          return
+        }
         form.user_id = this.$store.state.user.id
         form.content = this.comment
         form.article_id = this.articleId
+        if (this.replyUserId) {
+          form.reply_user_id = this.replyUserId
+          form.level = this.level + 1
+        }
         const data = await this.$axios.$post('/comment/addone', form)
         if (data && !data.statusCode) {
           this.showTips('success', '评论成功')
+          if (this.replyUserId) this.close()
         } else {
           this.showTips('error', data.message || '评论失败')
         }

@@ -11,11 +11,12 @@
             <img :src="item.userInfo.icon">
           </v-list-tile-avatar>
 
-          <v-list-tile-content>
+          <v-list-tile-content class="comment-content">
             <v-list-tile-title>
               <span>{{ item.userInfo.username }}<span class="px-2">说</span></span>
             </v-list-tile-title>
             <v-list-tile-sub-title v-html="item.content"></v-list-tile-sub-title>
+            <CommentBtn :item="item" class="wrapBtn" />
           </v-list-tile-content>
         </v-list-tile>
 
@@ -30,11 +31,12 @@
 
 <script>
 import CommentReply from './comment-reply'
+import CommentBtn from './comment-btn'
 
 export default {
   name: 'CommentList',
   components: {
-    CommentReply
+    CommentReply, CommentBtn
   },
   props: {
     articleId: {
@@ -67,3 +69,16 @@ export default {
   }
 }
 </script>
+<style scoped>
+.comment-content {
+  position: relative;
+}
+.wrapBtn {
+  position: absolute;
+  right: 0;
+  display: none;
+}
+.comment-content:hover .wrapBtn {
+  display: flex;
+}
+</style>
