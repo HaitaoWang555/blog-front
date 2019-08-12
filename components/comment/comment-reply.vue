@@ -8,14 +8,15 @@
           avatar
         >
           <v-list-tile-avatar>
-            <img :src="item.avatar">
+            <img :src="item.userInfo.icon">
           </v-list-tile-avatar>
 
-          <v-list-tile-content>
+          <v-list-tile-content class="comment-content">
             <v-list-tile-title>
-              <span v-if="item.p_id">{{ item.name }}<span class="px-2">回复</span>{{ item.replyName }}</span>
+              <span>{{ item.userInfo.username }}<span class="px-2">回复</span>{{ item.replyUserInfo.username }}</span>
             </v-list-tile-title>
-            <v-list-tile-sub-title v-html="item.subtitle"></v-list-tile-sub-title>
+            <v-list-tile-sub-title v-html="item.content"></v-list-tile-sub-title>
+            <CommentBtn :item="item" class="wrapBtn" :setNewList="setNewList" />
           </v-list-tile-content>
         </v-list-tile>
 
@@ -27,8 +28,11 @@
 </template>
 
 <script>
+import CommentBtn from './comment-btn'
+
 export default {
   name: 'CommentReply',
+  components: { CommentBtn },
   props: {
     articleId: {
       type: String,
@@ -39,19 +43,43 @@ export default {
       default: null
     }
   },
+  created() {
+    this.init()
+  },
   data() {
     return {
-      items: [
-        {
-          id: 'c79df6ef-3819-4693-9e1b-495a7184da43',
-          p_id: 'c79df6ef-3819-4693-9e1b-495a7184da03',
-          avatar: 'https://cdn.vuetifyjs.com/images/lists/3.jpg',
-          name: 'Oui',
-          replyName: 'Brunch',
-          subtitle: 'Do you have Paris recommendations? Have you ever been?'
-        }
-      ]
+      items: []
+    }
+  },
+  methods: {
+    async init() {
+      const params = {}
+      params.id = this.articleId
+      params.p_id = this.p_id
+      const data = await this.$axios.$get('/comment/list', { params })
+      if (data && !data.statusCode) {
+        this.initData(data)
+      }
+    },
+    initData(data) {
+      this.items = data
+    },
+    setNewList() {
+      this.init()
     }
   }
 }
 </script>
+<style scoped>
+.comment-content {
+  position: relative;
+}
+.wrapBtn {
+  position: absolute;
+  right: 0;
+  display: none;
+}
+.comment-content:hover .wrapBtn {
+  display: flex;
+}
+</style>

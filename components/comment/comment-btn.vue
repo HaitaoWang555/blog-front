@@ -12,12 +12,11 @@
     >
       <CommentForm
         v-if="dialog"
+        :item="item"
         :article-id="item.article_id"
-        :reply-user-id="item.user_id"
-        :level="item.level"
         :close="closeDialog" 
-        :label="item.userInfo.username"
         style="padding: 20px;background-color: white"
+        @setNewList="setNewList"
       />
    </v-dialog>
   </div>
@@ -37,6 +36,10 @@ export default {
       default: () => {
         return {}
       }
+    },
+    setNewList: {
+      type: Function,
+      default: null
     }
   },
   data() {

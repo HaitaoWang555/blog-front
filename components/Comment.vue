@@ -5,18 +5,16 @@
         <span class="line"></span>
       </div>
       <CommentList :article-id="articleId"/>
-      <CommentForm :article-id="articleId" />
   </div>
 </template>
 
 <script>
-import CommentForm from './comment/comment-form'
 import CommentList from './comment/comment-list'
 
 export default {
   name: 'Comment',
   components: {
-    CommentForm, CommentList
+    CommentList
   },
   props: {
     articleId: {

@@ -1,5 +1,5 @@
 <template>
-  <div class="comment-list">
+  <div>
     <v-list three-line>
       <template v-for="(item, index) in items">
 
@@ -16,27 +16,29 @@
               <span>{{ item.userInfo.username }}<span class="px-2">说</span></span>
             </v-list-tile-title>
             <v-list-tile-sub-title v-html="item.content"></v-list-tile-sub-title>
-            <CommentBtn :item="item" class="wrapBtn" />
+            <CommentBtn :item="item" class="wrapBtn" :setNewList="setNewList" />
           </v-list-tile-content>
         </v-list-tile>
 
-        <comment-reply v-if="item.level" :article-id="articleId" :p_id="item.id" :key="'reply' + index" />
+        <comment-reply v-if="item.is_have_leaf" :article-id="articleId" :p_id="item.id" :key="'reply' + index" />
         
         <v-divider v-if="index + 1 < items.length" :key="'divider' + index"></v-divider>
 
       </template>
     </v-list>
+    <CommentForm :article-id="articleId" @setNewList="setNewList"/>
   </div>
 </template>
 
 <script>
 import CommentReply from './comment-reply'
 import CommentBtn from './comment-btn'
+import CommentForm from './comment-form'
 
 export default {
   name: 'CommentList',
   components: {
-    CommentReply, CommentBtn
+    CommentReply, CommentBtn, CommentForm
   },
   props: {
     articleId: {
@@ -65,6 +67,9 @@ export default {
     },
     initData(data) {
       this.items = data
+    },
+    setNewList() {
+      this.init()
     }
   }
 }

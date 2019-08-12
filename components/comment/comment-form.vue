@@ -19,7 +19,7 @@
           </v-flex>
           <v-flex xs2 class="text-xs-center">
             <v-btn
-              v-if="replyUserId"
+              v-if="item && item.user_id"
               color="error"
               @click="close"
             >
@@ -27,6 +27,7 @@
             </v-btn>    
             <v-btn
               :disabled="!valid"
+              :loading="loading"
               color="primary"
               @click="submit"
             >
@@ -50,17 +51,11 @@ export default {
       type: String,
       default: ''
     },
-    replyUserId: {
-      type: String,
-      default: ''
-    },
-    level: {
-      type: Number,
-      default: 0
-    },
-    label: {
-      type: String,
-      default: ''
+    item: {
+      type: Object,
+      default: () => {
+        return {}
+      }
     },
     close: {
       type: Function,
@@ -69,12 +64,17 @@ export default {
   },
   computed: {
     labelText() {
-      return this.label ? '您正在回复 ' + this.label : '评论'
+      if (this.item.userInfo) {
+        return this.item.userInfo.username ? '您正在回复 ' + this.item.userInfo.username : '评论'
+      } else {
+        return '评论'
+      }
     }
   },
   data() {
     return {
       comment: null,
+      loading: false,
       commentRules: [
         v => !!v || '请填写评论',
         v => (v && v.length < 996) || '评论长度不能超过996'
@@ -95,17 +95,21 @@ export default {
           this.showTips('error', '请先登录')
           return
         }
+        this.loading = true
         form.user_id = this.$store.state.user.id
         form.content = this.comment
         form.article_id = this.articleId
-        if (this.replyUserId) {
-          form.reply_user_id = this.replyUserId
-          form.level = this.level + 1
+        if (this.item && this.item.user_id) {
+          form.reply_user_id = this.item.user_id
+          form.parent_id = this.item.parent_id || this.item.id
         }
         const data = await this.$axios.$post('/comment/addone', form)
+        this.loading = false
         if (data && !data.statusCode) {
           this.showTips('success', '评论成功')
-          if (this.replyUserId) this.close()
+          this.comment = null
+          this.setNewList(data)
+          if (this.item && this.item.user_id) this.close()
         } else {
           this.showTips('error', data.message || '评论失败')
         }
@@ -115,6 +119,9 @@ export default {
       this.snackbarObj.snackbar = true
       this.snackbarObj.tips = tips
       this.snackbarObj.color = color
+    },
+    setNewList(data) {
+      this.$emit('setNewList', data)
     }
   }
 }
