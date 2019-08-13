@@ -11,10 +11,10 @@
               v-model="comment"
               name="comment"
               :label="labelText"
-              hint="支持markdown语法"
+              hint="文明发言"
               required
               :rules="commentRules"
-              :counter="996"
+              :counter="120"
             ></v-textarea>
           </v-flex>
           <v-flex xs2 class="text-xs-center">
@@ -77,7 +77,7 @@ export default {
       loading: false,
       commentRules: [
         v => !!v || '请填写评论',
-        v => (v && v.length < 996) || '评论长度不能超过996'
+        v => (v && v.length < 121) || '评论长度不能超过120'
       ],
       valid: true,
       snackbarObj: {
@@ -107,7 +107,6 @@ export default {
         this.loading = false
         if (data && !data.statusCode) {
           this.showTips('success', '评论成功')
-          this.comment = null
           this.setNewList(data)
           if (this.item && this.item.user_id) this.close()
         } else {

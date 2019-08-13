@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="items.length > 0">
     <v-list three-line>
       <template v-for="(item, index) in items">
 
@@ -26,11 +26,13 @@
 
       </template>
     </v-list>
+    <w-pagination :pageObj="pageObj" :changePage="init" :element="'.comment'" />
     <CommentForm :article-id="articleId" @setNewList="setNewList"/>
   </div>
 </template>
 
 <script>
+import WPagination from '~/components/w-pagination.vue'
 import CommentReply from './comment-reply'
 import CommentBtn from './comment-btn'
 import CommentForm from './comment-form'
@@ -38,7 +40,7 @@ import CommentForm from './comment-form'
 export default {
   name: 'CommentList',
   components: {
-    CommentReply, CommentBtn, CommentForm
+    WPagination, CommentReply, CommentBtn, CommentForm
   },
   props: {
     articleId: {
@@ -48,7 +50,12 @@ export default {
   },
   data() {
     return {
-      items: []
+      items: [],
+      pageObj: {
+        page: 1,
+        pagesize: 10,
+        total: null
+      }
     }
   },
   created() {
@@ -60,13 +67,16 @@ export default {
     async init() {
       const params = {}
       params.id = this.articleId
+      params.page = this.pageObj.page
+      params.pagesize = this.pageObj.pagesize
       const data = await this.$axios.$get('/comment/list', { params })
       if (data && !data.statusCode) {
         this.initData(data)
       }
     },
     initData(data) {
-      this.items = data
+      this.items = data.items
+      this.pageObj.total = data.total
     },
     setNewList() {
       this.init()

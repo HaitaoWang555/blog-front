@@ -23,6 +23,7 @@
         <v-divider v-if="index + 1 < items.length" :key="'divider' + index"></v-divider>
 
       </template>
+      <div v-if="this.pageObj.total > this.pageObj.page * this.pageObj.pagesize" class="ml-4" @click="getMore"><v-btn flat small color="primary">查看更多</v-btn></div>
     </v-list>
   </div>
 </template>
@@ -48,7 +49,12 @@ export default {
   },
   data() {
     return {
-      items: []
+      items: [],
+      pageObj: {
+        page: 1,
+        pagesize: 4,
+        total: null
+      }
     }
   },
   methods: {
@@ -56,15 +62,22 @@ export default {
       const params = {}
       params.id = this.articleId
       params.p_id = this.p_id
+      params.page = this.pageObj.page
+      params.pagesize = this.pageObj.pagesize
       const data = await this.$axios.$get('/comment/list', { params })
       if (data && !data.statusCode) {
         this.initData(data)
       }
     },
     initData(data) {
-      this.items = data
+      this.items = data.items
+      this.pageObj.total = data.total
     },
     setNewList() {
+      this.init()
+    },
+    getMore() {
+      this.pageObj.pagesize += 4
       this.init()
     }
   }

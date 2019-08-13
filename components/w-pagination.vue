@@ -1,7 +1,7 @@
 <template>
   <div class="w-pagination">
     <v-layout row align-center justify-center>
-      <v-flex xs1 sm1 md1 class="text-xs-left">
+      <v-flex v-if="pageObj.total" xs1 sm1 md1 class="text-xs-left">
         <v-btn small>共{{ pageObj.total }}条</v-btn>
       </v-flex>
       <v-flex class="text-xs-center">
@@ -24,7 +24,6 @@
 </template>
 
 <script>
-const PAGE_SIZE = 15
 
 export default {
   name: 'WPagination',
@@ -33,11 +32,16 @@ export default {
       type: Function,
       defalut: null
     },
+    element: {
+      type: String,
+      default: 'html'
+    },
     pageObj: {
       type: Object,
       defalut: () => {
         return {
           page: 1,
+          pagesize: 15,
           total: 1
         }
       }
@@ -51,7 +55,7 @@ export default {
   },
   computed: {
     totalPage() {
-      return this.pageObj.total ? Math.ceil(this.pageObj.total / PAGE_SIZE) : 0
+      return this.pageObj.total ? Math.ceil(this.pageObj.total / this.pageObj.pagesize) : 0
     }
   },
   mounted() {
@@ -66,7 +70,7 @@ export default {
       }
       this.savePage = this.pageObj.page
       this.changePage()
-      this.$vuetify.goTo('html')
+      this.$vuetify.goTo(this.element)
     }
   }
 }

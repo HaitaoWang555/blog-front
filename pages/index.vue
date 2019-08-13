@@ -23,6 +23,7 @@ export default {
       articleData: data.items,
       pageObj: {
         page: 1,
+        pagesize: 15,
         total: data.total || null
       }
     }
