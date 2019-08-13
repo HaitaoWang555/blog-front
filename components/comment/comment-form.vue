@@ -120,6 +120,9 @@ export default {
       this.snackbarObj.color = color
     },
     setNewList(data) {
+      if (this.item.id) {
+        data.replyUserInfo = this.item.replyUserInfo
+      }
       this.$emit('setNewList', data)
     }
   }

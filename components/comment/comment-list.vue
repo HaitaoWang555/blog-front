@@ -16,7 +16,7 @@
               <span>{{ item.userInfo.username }}<span class="px-2">说</span></span>
             </v-list-tile-title>
             <v-list-tile-sub-title v-html="item.content"></v-list-tile-sub-title>
-            <CommentBtn :item="item" class="wrapBtn" :setNewList="setNewList" />
+            <CommentBtn :item="item" class="wrapBtn" :setNewList="setNewReplayList" />
           </v-list-tile-content>
         </v-list-tile>
 
@@ -78,8 +78,19 @@ export default {
       this.items = data.items
       this.pageObj.total = data.total
     },
-    setNewList() {
-      this.init()
+    setNewList(data) {
+      const userInfo = {}
+      userInfo.icon = this.$store.state.user.icon
+      userInfo.username = this.$store.state.user.username
+      data.userInfo = userInfo
+      this.items.push(data)
+    },
+    setNewReplayList(data) {
+      const id = data.parent_id
+      for (let i = 0; i < this.items.length; i++) {
+        const element = this.items[i]
+        if (element.id === id) element.is_have_leaf = true
+      }
     }
   }
 }

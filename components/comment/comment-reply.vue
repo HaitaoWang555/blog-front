@@ -73,8 +73,12 @@ export default {
       this.items = data.items
       this.pageObj.total = data.total
     },
-    setNewList() {
-      this.init()
+    setNewList(data) {
+      const userInfo = {}
+      userInfo.icon = this.$store.state.user.icon
+      userInfo.username = this.$store.state.user.username
+      data.userInfo = userInfo
+      this.items.push(data)
     },
     getMore() {
       this.pageObj.pagesize += 4

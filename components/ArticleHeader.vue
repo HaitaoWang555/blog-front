@@ -18,7 +18,7 @@
       </span>
       <span class="px-2">
         <v-icon>mode_comment</v-icon>
-        {{ data.commentCount || 0 }}
+        {{ data.comment_count || 0 }}
       </span>
     </v-layout>
     <v-layout v-if="data.tags" align-start justify-start row wrap="true">
