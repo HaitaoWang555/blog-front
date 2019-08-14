@@ -1,6 +1,6 @@
 <template>
   <div v-if="data" class="articleHeader">
-    <div class="headline font-weight-medium">
+    <div class="display-1 font-weight-medium">
       <nuxt-link :to="{ path: '/article/'+data.id }">{{data.title}}</nuxt-link>
     </div>
     <v-layout wrap align-start justify-start class="pa-2">
