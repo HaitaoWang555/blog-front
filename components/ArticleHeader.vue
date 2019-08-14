@@ -10,7 +10,7 @@
       </span>
       <span class="px-2">
         <v-icon>date_range</v-icon>
-        {{ data.update_content_time | time('yyyy-MM-dd') }}
+        {{ data.update_content_time | time('{y}-{m}-{d}') }}
       </span>
       <span class="px-2">
         <v-icon>visibility</v-icon>
