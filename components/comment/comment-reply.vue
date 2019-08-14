@@ -13,9 +13,13 @@
 
           <v-list-tile-content class="comment-content">
             <v-list-tile-title>
-              <span>{{ item.userInfo.username }}<span class="px-2">回复</span>{{ item.replyUserInfo.username }}</span>
+              <span class="title">
+                {{ item.userInfo.username }}
+                <span class="px-2">回复</span>{{ item.replyUserInfo.username }}
+                <span class="px-2">{{ item.created_at | time('{y}-{m}-{d} {h}:{i}') }}</span>
+              </span>
             </v-list-tile-title>
-            <v-list-tile-sub-title v-html="item.content"></v-list-tile-sub-title>
+            <v-list-tile-sub-title class="content" v-html="item.content"></v-list-tile-sub-title>
             <CommentBtn :item="item" class="wrapBtn" :setNewList="setNewList" />
           </v-list-tile-content>
         </v-list-tile>
@@ -98,5 +102,13 @@ export default {
 }
 .comment-content:hover .wrapBtn {
   display: flex;
+}
+.title {
+  font-size: 14px!important;
+  color: rgba(0,0,0,0.54)!important;
+}
+.content {
+  font-size: 16px!important;
+  color: rgba(0,0,0,0.87)!important;
 }
 </style>

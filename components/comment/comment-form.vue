@@ -14,7 +14,7 @@
               hint="文明发言"
               required
               :rules="commentRules"
-              :counter="120"
+              :counter="80"
             ></v-textarea>
           </v-flex>
           <v-flex xs2 class="text-xs-center">
@@ -77,7 +77,7 @@ export default {
       loading: false,
       commentRules: [
         v => !!v || '请填写评论',
-        v => (v && v.length < 121) || '评论长度不能超过120'
+        v => (v && v.length < 81) || '评论长度不能超过80'
       ],
       valid: true,
       snackbarObj: {
