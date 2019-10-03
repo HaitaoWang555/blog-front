@@ -14,7 +14,7 @@ export default {
   },
   props: {
     articleId: {
-      type: String,
+      type: [String, Number],
       default: ''
     }
   }

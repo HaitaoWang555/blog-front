@@ -41,7 +41,7 @@ export default {
       defalut: () => {
         return {
           page: 1,
-          pagesize: 15,
+          pageSize: 15,
           total: 1
         }
       }
@@ -55,7 +55,7 @@ export default {
   },
   computed: {
     totalPage() {
-      return this.pageObj.total ? Math.ceil(this.pageObj.total / this.pageObj.pagesize) : 0
+      return this.pageObj.total ? Math.ceil(this.pageObj.total / this.pageObj.pageSize) : 0
     }
   },
   mounted() {

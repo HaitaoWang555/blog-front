@@ -18,12 +18,16 @@ export default {
     return { title: `首页` }
   },
   async asyncData(context) {
-    const data = await context.app.$axios.$get('/article/list')
+    const params = {
+      page: 1,
+      pageSize: 15
+    }
+    const data = await context.app.$axios.$get('/article/list', { params })
     return {
       articleData: data.items,
       pageObj: {
         page: 1,
-        pagesize: 15,
+        pageSize: 15,
         total: data.total || null
       }
     }

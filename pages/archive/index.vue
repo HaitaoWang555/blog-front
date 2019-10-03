@@ -2,7 +2,7 @@
   <div class="archive">
     <v-timeline>
       <v-timeline-item
-        v-for="(item, i) in archive"
+        v-for="(item, i) in archive.items"
         :key="i"
         :color="item.color || 'primary'"
         small
@@ -13,10 +13,10 @@
             v-text="item.dateStr"
           ></span>
         </template>
-        <div v-for="article in item.articles" :key="article.id" class="py-2">
+        <div v-for="article in item.article" :key="article.id" class="py-2 text-xs-center">
           <div>
             <span class="text--secondary">
-              {{ article.update_content_time | time('{m}-{d}') }}
+              {{ article.updatedAt | time('{m}-{d}') }}
             </span>            
             <nuxt-link :to="{ path: '/article/'+article.id }" style="width: 100%">
               {{ article.title }}

@@ -4,13 +4,21 @@
       <nuxt-link :to="{ path: '/article/'+data.id }">{{data.title}}</nuxt-link>
     </div>
     <v-layout wrap align-start justify-start class="pa-2">
-      <span class="px-2 pointer" @click="clickTag(data.category, 'category')">
-        <v-icon>folder</v-icon>
-        {{ data.category }}
-      </span>
+      <template
+        v-if="data.category"
+       >
+        <span
+          v-for="(item, index) in data.category.split(',')"
+          :key="index"
+          class="px-2 pointer" @click="clickTag(item, 'category')"
+        >
+          <v-icon>folder</v-icon>
+          {{ item }}
+        </span>
+      </template>
       <span class="px-2">
         <v-icon>date_range</v-icon>
-        {{ data.update_content_time | time('{y}-{m}-{d}') }}
+        {{ data.updatedAt | time('{y}-{m}-{d}') }}
       </span>
       <span class="px-2">
         <v-icon>visibility</v-icon>
@@ -18,12 +26,12 @@
       </span>
       <span class="px-2">
         <v-icon>mode_comment</v-icon>
-        {{ data.comment_count || 0 }}
+        {{ data.commentCount || 0 }}
       </span>
     </v-layout>
     <v-layout v-if="data.tags" align-start justify-start row wrap="true">
       <v-chip
-        v-for="(item, index) in data.tags"
+        v-for="(item, index) in data.tags.split(',')"
         :key="index"
         small
         outline

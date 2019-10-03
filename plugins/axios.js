@@ -3,7 +3,7 @@ import serveConfig from '../config/server-config'
 const isProd = process.env.NODE_ENV === 'production'
 
 export default function({ $axios, redirect }) {
-  $axios.defaults.baseURL = isProd ? serveConfig.prodBaseURL : serveConfig.devBaseURL + '/api'
+  $axios.defaults.baseURL = isProd ? serveConfig.prodBaseURL : serveConfig.devBaseURL + serveConfig.baseApi
   $axios.setHeader('Content-Type', 'application/json, charset=UTF-8')
   $axios.onRequest(config => {
     if (
@@ -21,7 +21,7 @@ export default function({ $axios, redirect }) {
 
   $axios.onResponse(response => {
     const res = response.data
-    if (res.statusCode !== 0) {
+    if (!res.success) {
       return response
     } else {
       return response.data

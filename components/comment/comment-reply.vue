@@ -14,8 +14,8 @@
           <v-list-tile-content class="comment-content">
             <v-list-tile-title>
               <span class="title">
-                {{ item.userInfo.username }}
-                <span class="px-2">回复</span>{{ item.replyUserInfo.username }}
+                {{ item.userInfo.userName }}
+                <span class="px-2">回复</span>{{ item.replyUserInfo.userName }}
                 <span class="px-2">{{ item.created_at | time('{y}-{m}-{d} {h}:{i}') }}</span>
               </span>
             </v-list-tile-title>
@@ -27,7 +27,7 @@
         <v-divider v-if="index + 1 < items.length" :key="'divider' + index"></v-divider>
 
       </template>
-      <div v-if="this.pageObj.total > this.pageObj.page * this.pageObj.pagesize" class="ml-4" @click="getMore"><v-btn flat small color="primary">查看更多</v-btn></div>
+      <div v-if="this.pageObj.total > this.pageObj.page * this.pageObj.pageSize" class="ml-4" @click="getMore"><v-btn flat small color="primary">查看更多</v-btn></div>
     </v-list>
   </div>
 </template>
@@ -40,11 +40,11 @@ export default {
   components: { CommentBtn },
   props: {
     articleId: {
-      type: String,
+      type: [String, Number],
       default: ''
     },
     p_id: {
-      type: String,
+      type: [String, Number],
       default: null
     }
   },
@@ -56,7 +56,7 @@ export default {
       items: [],
       pageObj: {
         page: 1,
-        pagesize: 4,
+        pageSize: 4,
         total: null
       }
     }
@@ -64,10 +64,10 @@ export default {
   methods: {
     async init() {
       const params = {}
-      params.id = this.articleId
-      params.p_id = this.p_id
+      params.articleId = this.articleId
+      params.parentId = this.p_id
       params.page = this.pageObj.page
-      params.pagesize = this.pageObj.pagesize
+      params.pageSize = this.pageObj.pageSize
       const data = await this.$axios.$get('/comment/list', { params })
       if (data && !data.statusCode) {
         this.initData(data)
@@ -85,7 +85,7 @@ export default {
       this.items.push(data)
     },
     getMore() {
-      this.pageObj.pagesize += 4
+      this.pageObj.pageSize += 4
       this.init()
     }
   }

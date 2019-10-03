@@ -94,7 +94,7 @@ export default {
         this.$store.commit('SET_USER', data)
         setUserInfo(data)
       } else {
-        this.tips('error', data.message || '登录失败')
+        this.tips('error', data.msg || '登录失败')
       }
     },
     async register() {
@@ -108,7 +108,7 @@ export default {
           this.close()
           this.login()
         } else {
-          this.tips('error', data.message || '注册失败')
+          this.tips('error', data.msg || '注册失败')
         }
       }
     }

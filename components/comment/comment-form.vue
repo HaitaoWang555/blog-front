@@ -26,7 +26,7 @@
               关闭
             </v-btn>    
             <v-btn
-              :disabled="!valid"
+              :disabled="!Boolean(user)"
               :loading="loading"
               color="primary"
               @click="submit"
@@ -42,13 +42,14 @@
 
 <script>
 import Snackbar from '@/components/Snackbar'
+import { removeToken } from '@/utils/store'
 
 export default {
   name: 'CommentForm',
   components: { Snackbar },
   props: {
     articleId: {
-      type: String,
+      type: [String, Number],
       default: ''
     },
     item: {
@@ -65,7 +66,9 @@ export default {
   computed: {
     labelText() {
       if (this.item.userInfo) {
-        return this.item.userInfo.username ? '您正在回复 ' + this.item.userInfo.username : '评论'
+        return this.item.userInfo.userName ? '您正在回复 ' + this.item.userInfo.userName : '评论'
+      } else if (!this.user) {
+        return '请先登录'
       } else {
         return '评论'
       }
@@ -84,8 +87,12 @@ export default {
         snackbar: false,
         color: '',
         tips: ''
-      }
+      },
+      user: this.$store.state.user
     }
+  },
+  mounted() {
+    this.user = this.$store.state.user
   },
   methods: {
     async submit() {
@@ -99,18 +106,22 @@ export default {
         form.user_id = this.$store.state.user.id
         form.content = this.comment
         form.article_id = this.articleId
-        if (this.item && this.item.user_id) {
-          form.reply_user_id = this.item.user_id
-          form.parent_id = this.item.parent_id || this.item.id
+        if (this.item && this.item.userId) {
+          form.reply_user_id = this.item.userId
+          form.parent_id = this.item.parentId || this.item.id
         }
-        const data = await this.$axios.$post('/comment/addone', form)
+        const data = await this.$axios.$post('/comment/add', form)
         this.loading = false
-        if (data && !data.statusCode) {
+        console.log(data)
+        console.log(this.item)
+        if (data && !data.msg) {
           this.showTips('success', '评论成功')
           this.setNewList(data)
-          if (this.item && this.item.user_id) this.close()
+          if (this.item && this.item.userId) this.close()
         } else {
-          this.showTips('error', data.message || '评论失败')
+          this.showTips('error', data.msg || '评论失败')
+          removeToken()
+          location.reload()
         }
       }
     },
