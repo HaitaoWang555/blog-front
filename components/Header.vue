@@ -196,7 +196,7 @@ export default {
         removeToken()
         location.reload()
       } else {
-        this.showTips('error', data.msg || '退出失败')
+        this.showTips('error', '退出失败')
       }
     }
   }

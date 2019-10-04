@@ -46,7 +46,8 @@ export default {
     async changePage(val) {
       const page = this.pageObj.page
       const params = {
-        page
+        page,
+        pageSize: 15
       }
       const data = await this.$axios.$get('/article/list', { params })
       this.articleData = data.items

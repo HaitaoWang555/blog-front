@@ -69,7 +69,7 @@ export default {
       params.page = this.pageObj.page
       params.pageSize = this.pageObj.pageSize
       const data = await this.$axios.$get('/comment/list', { params })
-      if (data && !data.statusCode) {
+      if (data) {
         this.initData(data)
       }
     },

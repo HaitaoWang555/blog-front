@@ -112,8 +112,6 @@ export default {
         }
         const data = await this.$axios.$post('/comment/add', form)
         this.loading = false
-        console.log(data)
-        console.log(this.item)
         if (data && !data.msg) {
           this.showTips('success', '评论成功')
           this.setNewList(data)
