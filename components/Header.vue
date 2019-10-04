@@ -18,11 +18,9 @@
             v-on="on"
             style="width: 64px;height: 64px;"
           >
-            <v-avatar size="48px" tile>
-              <img
-                :src="avatar"
-                alt="Vuetify"
-              >
+            <v-avatar size="52px" tile>
+            <img v-if="!loggedUser" class="user-avatar" src="/v.png" />
+            <img v-else v-avatar="loggedUser.username" class="user-avatar">
             </v-avatar>
           </v-btn>
         </template>
@@ -44,7 +42,8 @@
       <v-list class="pa-0">
         <v-list-tile avatar>
           <v-list-tile-avatar>
-            <img style="width: 40px;height: 40px;" src="/v.png" />
+            <img v-if="!loggedUser" class="user-avatar" src="/v.png" />
+            <img v-else v-avatar="loggedUser.username" class="user-avatar">
           </v-list-tile-avatar>
           <v-list-tile-content>
             <v-list-tile-title>{{ title }}</v-list-tile-title>

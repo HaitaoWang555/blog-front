@@ -36,3 +36,10 @@
     padding: 15px 0;
   }
 }
+
+.application--wrap .header .user-avatar {
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
