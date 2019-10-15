@@ -45,7 +45,7 @@ module.exports = {
     '/api': {
       target: serveConfig.devProxyURL,
       pathRewrite: {
-        '^/api': '/'
+        '^/api': '/api'
       }
     }
   },
