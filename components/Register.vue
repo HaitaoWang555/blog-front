@@ -88,13 +88,13 @@ export default {
       form.username = this.name
       form.password = this.password
       const data = await this.$axios.$post('/user/login', form)
-      if (data) {
+      if (data.success !== false) {
         this.tips('success', '登录成功')
         this.close()
         this.$store.commit('SET_USER', data)
         setUserInfo(data)
       } else {
-        this.tips('error', '登录失败')
+        this.tips('error', data.msg || '登录失败')
       }
     },
     async register() {
@@ -104,12 +104,12 @@ export default {
         form.password = this.password
         form.email = this.name + '@blog.com'
         const data = await this.$axios.$post('/user/register', form)
-        if (data) {
+        if (data.success !== false) {
           this.tips('success', '注册成功')
           this.close()
           this.login()
         } else {
-          this.tips('error', '注册失败')
+          this.tips('error', data.msg || '注册失败')
         }
       }
     }

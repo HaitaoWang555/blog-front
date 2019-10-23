@@ -3,14 +3,21 @@
     <div
       v-for="(item, index) in data"
       :key="item.id"
-      class="my-4"
-    >
-      <ArticleHeader :data="item"/>
-      <div class="markdown-body" v-html="item.content" v-highlight />
-      <v-btn v-if="!model || model.type !== 'details'" color="primary" @click="clickTag(item.id)">
-        阅读全文
-      </v-btn>
-      <v-divider v-if="index + 1 < data.length" :key="'divider' + item.id"></v-divider>
+      class="my-4">
+      <ArticleHeader :data="item"></ArticleHeader>
+      <template v-if="!model || model.type !== 'details'">
+        <div class="markdown-body" v-highlight >
+          {{ item.content }}
+        </div>
+        <v-btn color="primary" @click="clickTag(item.id)">
+          阅读全文
+        </v-btn>
+        <v-divider v-if="index + 1 < data.length" :key="'divider' + item.id"></v-divider>
+      </template>
+      <template v-else>
+        <div class="markdown-body" v-html="item.content" v-highlight >
+        </div>
+      </template>
     </div>
   </div>
 </template>

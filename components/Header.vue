@@ -80,22 +80,6 @@
       <Register v-if="registerForm" :close="closeDialog" :tips="showTips" />
     </v-dialog>
 
-    <v-snackbar
-      v-model="snackbar"
-      :color="color"
-      :timeout="timeout"
-      top
-    >
-      {{ tips }}
-      <v-btn
-        dark
-        text
-        @click="snackbar = false"
-      >
-        X
-      </v-btn>
-    </v-snackbar>
-
   </div>
 </template>
 
@@ -145,12 +129,8 @@ export default {
       ],
       drawer: null,
       dialog: false,
-      snackbar: false,
       loginForm: false,
-      registerForm: false,
-      tips: '',
-      color: '',
-      timeout: 4000
+      registerForm: false
     }
   },
   methods: {
@@ -179,9 +159,11 @@ export default {
       }
     },
     showTips(color, tips) {
-      this.snackbar = true
-      this.tips = tips
-      this.color = color
+      const obj = {}
+      obj.snackbar = true
+      obj.tips = tips
+      obj.color = color
+      this.$store.commit('SET_SNACKBAR', obj)
     },
     closeDialog() {
       this.dialog = false
@@ -195,7 +177,7 @@ export default {
         removeToken()
         location.reload()
       } else {
-        this.showTips('error', '退出失败')
+        this.showTips('error', data.msg || '退出失败')
       }
     }
   }

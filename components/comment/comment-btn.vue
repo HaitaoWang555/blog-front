@@ -3,7 +3,7 @@
     <v-layout wrap align-center justify-center class="pa-2 wrap">
       <!-- <div class="pa-2 icon"><v-icon>thumb_up</v-icon> <span>{{ item.up }}</span></div>
       <div class="pa-2 icon"><v-icon>thumb_down</v-icon> <span>{{ item.down }}</span></div> -->
-      <div class="pa-2"><v-btn :disabled="!Boolean(user)" @click.stop="replay">回复</v-btn></div>
+      <div class="pa-2"><v-btn :disabled="!Boolean(loggedUser)" @click.stop="replay">回复</v-btn></div>
     </v-layout>
    <v-dialog
       v-model="dialog"
@@ -23,6 +23,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import CommentForm from './comment-form'
 
 export default {
@@ -42,10 +43,14 @@ export default {
       default: null
     }
   },
+  computed: {
+    ...mapGetters([
+      'loggedUser'
+    ])
+  },
   data() {
     return {
-      dialog: false,
-      user: this.$store.state.user
+      dialog: false
     }
   },
   methods: {

@@ -19,14 +19,14 @@
           </v-flex>
           <v-flex xs2 class="text-xs-center">
             <v-btn
-              v-if="item && item.user_id"
+              v-if="item && item.userId"
               color="error"
               @click="close"
             >
               关闭
             </v-btn>    
             <v-btn
-              :disabled="!Boolean(user)"
+              :disabled="!Boolean(loggedUser)"
               :loading="loading"
               color="primary"
               @click="submit"
@@ -36,17 +36,15 @@
           </v-flex>
         </v-layout>
       </v-form>
-      <Snackbar :snackbar-obj="snackbarObj"/>
   </div>
 </template>
 
 <script>
-import Snackbar from '@/components/Snackbar'
+import { mapGetters } from 'vuex'
 import { removeToken } from '@/utils/store'
 
 export default {
   name: 'CommentForm',
-  components: { Snackbar },
   props: {
     articleId: {
       type: [String, Number],
@@ -67,12 +65,15 @@ export default {
     labelText() {
       if (this.item.userInfo) {
         return this.item.userInfo.userName ? '您正在回复 ' + this.item.userInfo.userName : '评论'
-      } else if (!this.user) {
+      } else if (!this.loggedUser) {
         return '请先登录'
       } else {
         return '评论'
       }
-    }
+    },
+    ...mapGetters([
+      'loggedUser'
+    ])
   },
   data() {
     return {
@@ -82,28 +83,19 @@ export default {
         v => !!v || '请填写评论',
         v => (v && v.length < 81) || '评论长度不能超过80'
       ],
-      valid: true,
-      snackbarObj: {
-        snackbar: false,
-        color: '',
-        tips: ''
-      },
-      user: this.$store.state.user
+      valid: true
     }
-  },
-  mounted() {
-    this.user = this.$store.state.user
   },
   methods: {
     async submit() {
       if (this.$refs.form.validate()) {
         const form = {}
-        if (!this.$store.state.user) {
+        if (!this.loggedUser) {
           this.showTips('error', '请先登录')
           return
         }
         this.loading = true
-        form.user_id = this.$store.state.user.id
+        form.user_id = this.loggedUser.id
         form.content = this.comment
         form.article_id = this.articleId
         if (this.item && this.item.userId) {
@@ -112,7 +104,7 @@ export default {
         }
         const data = await this.$axios.$post('/comment/add', form)
         this.loading = false
-        if (data && !data.msg) {
+        if (data.success !== false) {
           this.showTips('success', '评论成功')
           this.setNewList(data)
           if (this.item && this.item.userId) this.close()
@@ -124,13 +116,15 @@ export default {
       }
     },
     showTips(color, tips) {
-      this.snackbarObj.snackbar = true
-      this.snackbarObj.tips = tips
-      this.snackbarObj.color = color
+      const obj = {}
+      obj.snackbar = true
+      obj.tips = tips
+      obj.color = color
+      this.$store.commit('SET_SNACKBAR', obj)
     },
     setNewList(data) {
       if (this.item.id) {
-        data.replyUserInfo = this.item.replyUserInfo
+        data.replyUserInfo = this.item.userInfo
       }
       this.$emit('setNewList', data)
     }

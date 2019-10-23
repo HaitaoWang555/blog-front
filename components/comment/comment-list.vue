@@ -9,7 +9,7 @@
             avatar
           >
             <v-list-tile-avatar>
-              <img :src="item.userInfo.icon">
+              <img v-avatar="item.userInfo.userName" class="user-avatar">
             </v-list-tile-avatar>
 
             <v-list-tile-content class="comment-content">
@@ -17,7 +17,7 @@
                 <span class="title">
                   {{ item.userInfo.userName }}
                   <span class="px-2">说</span>
-                  <span class="px-2">{{ item.created | time('{y}-{m}-{d} {h}:{i}') }}</span>
+                  <span>{{ item.created | time('{y}-{m}-{d} {h}:{i}') }}</span>
                 </span>
               </v-list-tile-title>
               <v-list-tile-sub-title class="content" v-html="item.content"></v-list-tile-sub-title>
@@ -25,7 +25,7 @@
             </v-list-tile-content>
           </v-list-tile>
 
-          <comment-reply v-if="item.isHaveLeaf" :article-id="articleId" :p_id="item.id" :key="'reply' + index" />
+          <comment-reply :ref="'reply' + index" v-if="item.isHaveLeaf" :article-id="articleId" :p_id="item.id" :key="'reply' + index" />
           
           <v-divider v-if="index + 1 < items.length" :key="'divider' + index"></v-divider>
 
@@ -90,12 +90,19 @@ export default {
       userInfo.userName = this.$store.state.user.username
       data.userInfo = userInfo
       this.items.push(data)
+      this.pageObj.total = this.items.length
     },
     setNewReplayList(data) {
-      const id = data.parent_id
+      const id = data.parentId
       for (let i = 0; i < this.items.length; i++) {
         const element = this.items[i]
-        if (element.id === id) element.isHaveLeaf = true
+        if (element.id === id) {
+          if (element.isHaveLeaf) {
+            const ref = 'reply' + i
+            this.$refs[ref][0].setNewList(data)
+          }
+          element.isHaveLeaf = true
+        }
       }
     }
   }

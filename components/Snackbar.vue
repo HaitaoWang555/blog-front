@@ -2,7 +2,6 @@
     <v-snackbar
       v-model="snackbarObj.snackbar"
       :color="snackbarObj.color"
-      :timeout="Number('4000')"
       top
     >
       {{ snackbarObj.tips }}
@@ -10,18 +9,31 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'Snackbar',
-  props: {
+  computed: {
+    ...mapGetters([
+      'snackbarObj'
+    ])
+  },
+  watch: {
     snackbarObj: {
-      type: Object,
-      default: () => {
-        return {
-          snackbar: false,
-          color: '',
-          tips: ''
+      deep: true,
+      handler(val) {
+        if (val.snackbar) {
+          const timer = setTimeout(() => {
+            this.close()
+            clearTimeout(timer)
+          }, 2000)
         }
       }
+    }
+  },
+  methods: {
+    close() {
+      this.$store.commit('SET_SNACKBAR', null)
     }
   }
 }

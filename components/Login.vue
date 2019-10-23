@@ -89,13 +89,13 @@ export default {
         form.username = this.name
         form.password = this.password
         const data = await this.$axios.$post('/user/login', form)
-        if (data) {
+        if (data.success !== false) {
           this.tips('success', '登录成功')
           this.close()
           this.$store.commit('SET_USER', data)
           setUserInfo(data)
         } else {
-          this.tips('error', '登录失败')
+          this.tips('error', data.msg || '登录失败')
         }
       }
     }

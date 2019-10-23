@@ -1,5 +1,6 @@
 <template>
   <v-app style="max-width: 1920px;">
+    <Snackbar></Snackbar>
     <Header></Header>
     <v-content class="mb-2">
       <v-container>
@@ -21,12 +22,14 @@
 import Header from '~/components/Header.vue'
 import Footer from '~/components/Footer.vue'
 import ScrollTop from '~/components/ScrollTop.vue'
+import Snackbar from '~/components/Snackbar'
 
 export default {
   components: {
     Header,
     Footer,
-    ScrollTop
+    ScrollTop,
+    Snackbar
   }
 }
 </script>

@@ -8,7 +8,7 @@
           avatar
         >
           <v-list-tile-avatar>
-            <img :src="item.userInfo.icon">
+            <img v-avatar="item.userInfo.userName" class="user-avatar">
           </v-list-tile-avatar>
 
           <v-list-tile-content class="comment-content">
@@ -16,7 +16,7 @@
               <span class="title">
                 {{ item.userInfo.userName }}
                 <span class="px-2">回复</span>{{ item.replyUserInfo.userName }}
-                <span class="px-2">{{ item.created_at | time('{y}-{m}-{d} {h}:{i}') }}</span>
+                <span class="px-2">{{ item.created | time('{y}-{m}-{d} {h}:{i}') }}</span>
               </span>
             </v-list-tile-title>
             <v-list-tile-sub-title class="content" v-html="item.content"></v-list-tile-sub-title>
@@ -80,7 +80,7 @@ export default {
     setNewList(data) {
       const userInfo = {}
       userInfo.icon = this.$store.state.user.icon
-      userInfo.username = this.$store.state.user.username
+      userInfo.userName = this.$store.state.user.username
       data.userInfo = userInfo
       this.items.push(data)
     },
