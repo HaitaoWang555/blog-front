@@ -47,6 +47,12 @@ module.exports = {
       pathRewrite: {
         '^/api': '/api'
       }
+    },
+    '/upload': {
+      target: serveConfig.devProxyURL,
+      pathRewrite: {
+        '^/upload': '/upload'
+      }
     }
   },
   plugins: [
