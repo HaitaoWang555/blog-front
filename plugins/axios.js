@@ -4,6 +4,7 @@ const isProd = process.env.NODE_ENV === 'production'
 
 export default function({ $axios, redirect }) {
   $axios.defaults.baseURL = isProd ? serveConfig.prodBaseURL : serveConfig.devBaseURL + serveConfig.baseApi
+  $axios.defaults.proxy = isProd ? serveConfig.proxy : false
   $axios.setHeader('Content-Type', 'application/json, charset=UTF-8')
   $axios.onRequest(config => {
     if (
