@@ -22,3 +22,4 @@ selenium-debug.log
 *.sln
 
 package-lock.json
+config/server-config-prod.js

@@ -1,10 +1,13 @@
 import qs from 'qs'
 import serveConfig from '../config/server-config'
+import serveConfigProd from '../config/server-config-prod'
 const isProd = process.env.NODE_ENV === 'production'
 
 export default function({ $axios, redirect }) {
-  $axios.defaults.baseURL = isProd ? serveConfig.prodBaseURL : serveConfig.devBaseURL + serveConfig.baseApi
-  $axios.defaults.proxy = isProd ? serveConfig.proxy : false
+  $axios.defaults.baseURL = isProd ? serveConfigProd.prodBaseURL : serveConfig.devBaseURL + serveConfig.baseApi
+  if (isProd) {
+    $axios.defaults.proxy = serveConfigProd.proxy
+  }
   $axios.setHeader('Content-Type', 'application/json, charset=UTF-8')
   $axios.onRequest(config => {
     if (
