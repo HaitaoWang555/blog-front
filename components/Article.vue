@@ -15,7 +15,7 @@
         <v-divider v-if="index + 1 < data.length" :key="'divider' + item.id"></v-divider>
       </template>
       <template v-else>
-        <div class="markdown-body" v-html="item.content" v-highlight >
+        <div class="markdown-body" v-html="markdownContent" v-highlight >
         </div>
       </template>
     </div>
@@ -25,6 +25,7 @@
 <script>
 import ArticleHeader from '@/components/ArticleHeader'
 import 'github-markdown-css/github-markdown.css'
+import { lazyload, remEvent } from '@/utils/lazyload'
 
 export default {
   name: 'Articl',
@@ -44,6 +45,29 @@ export default {
         return null
       }
     }
+  },
+  data() {
+    return {
+      markdownContent: null
+    }
+  },
+  mounted() {
+    if (this.model && this.model.type === 'details') {
+      let content = this.data[0].content
+      content = content.replace(/<img [^>]*src=['"]([^'"]+)[^>]*>/gi, (match, capture) => {
+        return match.replace('src', 'data-src')
+      })
+      this.markdownContent = content
+      this.$nextTick(() => {
+        const els = document.querySelectorAll('.markdown-body img')
+        if (els && els.length > 0) {
+          lazyload(els)
+        }
+      })
+    }
+  },
+  destroyed() {
+    remEvent()
   },
   methods: {
     clickTag(id) {
