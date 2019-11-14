@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import { setUserInfo } from '@/utils/store'
+import { setUserInfo, setToken, removeToken } from '@/utils/store'
 
 export default {
   name: 'Register',
@@ -91,8 +91,8 @@ export default {
       if (data.success !== false) {
         this.tips('success', '登录成功')
         this.close()
-        this.$store.commit('SET_USER', data)
-        setUserInfo(data)
+        setToken(data)
+        this.getUserInfo()
       } else {
         this.tips('error', data.msg || '登录失败')
       }
@@ -111,6 +111,16 @@ export default {
         } else {
           this.tips('error', data.msg || '注册失败')
         }
+      }
+    },
+    async getUserInfo() {
+      const data = await this.$axios.$get('/user/getOneById')
+      if (data.success !== false) {
+        this.$store.commit('SET_USER', data)
+        setUserInfo(data)
+      } else {
+        this.tips('error', data.msg || '登录失败')
+        removeToken()
       }
     }
   }

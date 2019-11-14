@@ -1,6 +1,7 @@
 import qs from 'qs'
 import serveConfig from '../config/server-config'
 import serveConfigProd from '../config/server-config-prod'
+import { getToken } from '@/utils/store'
 const isProd = process.env.NODE_ENV === 'production'
 
 export default function({ $axios, redirect }) {
@@ -9,6 +10,7 @@ export default function({ $axios, redirect }) {
     $axios.defaults.proxy = serveConfigProd.proxy
   }
   $axios.setHeader('Content-Type', 'application/json, charset=UTF-8')
+
   $axios.onRequest(config => {
     if (
       config.method === 'post' ||
@@ -18,6 +20,7 @@ export default function({ $axios, redirect }) {
       // 序列化
       config.data = qs.stringify(config.data)
     }
+    config.headers['Authorization'] = 'Bearer ' + getToken()
     return config
   }, error => {
     return Promise.reject(error.message)
