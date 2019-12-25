@@ -5,7 +5,8 @@ export const state = () => {
       snackbar: false,
       color: '',
       tips: ''
-    }
+    },
+    SidebarId: null
   }
 }
 
@@ -19,6 +20,9 @@ export const mutations = {
       color: '',
       tips: ''
     }
+  },
+  SET_SIDEBAR_ID(state, id) {
+    state.SidebarId = id || null
   }
 }
 
@@ -31,5 +35,8 @@ export const getters = {
   },
   snackbarObj(state) {
     return state.snackbarObj
+  },
+  SidebarId(state) {
+    return state.SidebarId
   }
 }
