@@ -81,7 +81,7 @@ export default {
       loading: false,
       commentRules: [
         v => !!v || '请填写评论',
-        v => (v && v.length < 81) || '评论长度不能超过80'
+        v => (v && v.length < 996) || '评论长度不能超过80'
       ],
       valid: true
     }

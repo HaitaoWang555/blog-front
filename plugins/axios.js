@@ -20,7 +20,9 @@ export default function({ $axios, redirect }) {
       // 序列化
       config.data = qs.stringify(config.data)
     }
-    config.headers['Authorization'] = 'Bearer ' + getToken()
+    if (getToken()) {
+      config.headers['Authorization'] = 'Bearer ' + getToken()
+    }
     return config
   }, error => {
     return Promise.reject(error.message)

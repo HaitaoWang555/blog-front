@@ -1,6 +1,6 @@
 <template>
   <div class="comment-reply">
-    <v-list three-line class="grey lighten-5 mx-5">
+    <v-list class="grey lighten-5 mx-5">
       <template v-for="(item, index) in items">
 
         <v-list-tile
@@ -13,13 +13,9 @@
 
           <v-list-tile-content class="comment-content">
             <v-list-tile-title>
-              <span class="title">
-                {{ item.userInfo.userName }}
-                <span class="px-2">回复</span>{{ item.replyUserInfo.userName }}
-                <span class="px-2">{{ item.created | time('{y}-{m}-{d} {h}:{i}') }}</span>
-              </span>
+              <span class="title">{{ item.userInfo.userName }}<span class="px-2">回复</span>{{ item.replyUserInfo.userName }}<span class="px-2">{{ item.created | time('{y}-{m}-{d} {h}:{i}') }}</span></span>
             </v-list-tile-title>
-            <v-list-tile-sub-title class="content" v-html="item.content"></v-list-tile-sub-title>
+            <v-list-tile-sub-title class="content" @click="showAll(item)">{{ item.content }}</v-list-tile-sub-title>
             <CommentBtn :item="item" class="wrapBtn" :setNewList="setNewList" />
           </v-list-tile-content>
         </v-list-tile>
@@ -29,6 +25,21 @@
       </template>
       <div v-if="this.pageObj.total > this.pageObj.page * this.pageObj.pageSize" class="ml-4" @click="getMore"><v-btn flat small color="primary">查看更多</v-btn></div>
     </v-list>
+    <v-dialog v-if="dialogItem" v-model="dialog" scrollable max-width="80%">
+      <v-card>
+        <v-card-title>
+          <span class="title">{{ dialogItem.userInfo.userName }}<span class="px-2">回复</span>{{ dialogItem.replyUserInfo.userName }}<span class="px-2">{{ dialogItem.created | time('{y}-{m}-{d} {h}:{i}') }}</span></span>
+        </v-card-title>
+        <v-divider></v-divider>
+        <v-card-text style="height: 300px;">
+          {{ dialogItem.content }}
+        </v-card-text>
+        <v-divider></v-divider>
+        <v-card-actions style="justify-content: flex-end;">
+          <v-btn color="blue darken-1" flat @click="dialog = false">关闭</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>      
   </div>
 </template>
 
@@ -58,7 +69,9 @@ export default {
         page: 1,
         pageSize: 4,
         total: null
-      }
+      },
+      dialogItem: null,
+      dialog: false
     }
   },
   methods: {
@@ -87,6 +100,12 @@ export default {
     getMore() {
       this.pageObj.pageSize += 4
       this.init()
+    },
+    showAll(val) {
+      if (val && val.content.length > 50) {
+        this.dialogItem = val
+        this.dialog = true
+      }
     }
   }
 }
