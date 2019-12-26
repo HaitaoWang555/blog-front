@@ -43,3 +43,14 @@
   height: 100%;
   border-radius: 50%;
 }
+
+.note-aside {
+  width: 300px!important;
+  margin-top: 51px!important;
+}
+.note-content {
+  margin-top: 50px;
+}
+.note-content-left {
+  margin-left: 300px;
+}

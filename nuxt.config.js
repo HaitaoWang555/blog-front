@@ -8,7 +8,7 @@ module.exports = {
   */
   head: {
     title: serveConfig.blogName,
-    titleTemplate: `%s - ${serveConfig.blogName}`,
+    titleTemplate: `%s`,
     meta: [
       { charset: 'utf-8' },
       { 'http-equiv': 'cleartype', content: 'on' },
