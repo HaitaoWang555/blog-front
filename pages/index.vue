@@ -39,7 +39,7 @@ export default {
   data() {
     return {
       articleData: null,
-      pageObj: null
+      pageObj: {}
     }
   },
   methods: {

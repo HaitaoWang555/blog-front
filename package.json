@@ -21,7 +21,7 @@
     "lru-cache": "^5.1.1",
     "material-design-icons-iconfont": "^4.0.5",
     "namedavatar": "^1.0.1",
-    "nuxt": "^2.5.1",
+    "nuxt": "^2.11.0",
     "roboto-fontface": "^0.10.0",
     "store": "^2.0.12",
     "vuetify": "^1.5.5",

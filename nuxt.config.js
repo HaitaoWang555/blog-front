@@ -55,12 +55,16 @@ module.exports = {
       }
     }
   },
+  render: {
+    resourceHints: false
+  },
   plugins: [
     { src: '@/plugins/vuetify' },
     { src: '@/plugins/global' },
     { src: '@/plugins/axios' }
   ],
   router: {
+    prefetchLinks: false,
     // nuxt 的bug,scrollToTop不生效，要重写scrollBehavior方法
     scrollBehavior: function(to, from, savedPosition) {
       if (savedPosition) {
