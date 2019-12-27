@@ -59,7 +59,7 @@ export default {
       default: null
     }
   },
-  created() {
+  mounted() {
     this.init()
   },
   data() {

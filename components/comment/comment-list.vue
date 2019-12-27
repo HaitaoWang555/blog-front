@@ -77,7 +77,7 @@ export default {
       dialog: false
     }
   },
-  created() {
+  mounted() {
     if (this.articleId) {
       this.init()
     }
