@@ -91,6 +91,14 @@ module.exports = {
   ** Build configuration
   */
   build: {
+    analyze: true,
+    filenames: {
+      manifest: 'js/manifest.js?v=[hash:7]',
+      vendor: 'js/vendor.js?v=[hash:7]',
+      app: 'js/app.js?v=[chunkhash:7]',
+      // - `chunk` 这里这样使用编译会报错，最后面会讲解相关解决方案
+      chunk: 'js/[name].js?v=[chunkhash:7]'
+    },
     transpile: ['vuetify/lib'],
     plugins: [new VuetifyLoaderPlugin()],
     loaders: {
@@ -98,6 +106,7 @@ module.exports = {
         import: ['~assets/style/variables.styl']
       }
     },
+    html: { minify: { collapseWhitespace: true } },
     /*
     ** Run ESLint on save
     */
