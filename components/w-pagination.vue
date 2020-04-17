@@ -68,9 +68,9 @@ export default {
         this.pageObj.page = this.savePage
         return
       }
+      this.$vuetify.goTo('html')
       this.savePage = this.pageObj.page
       this.changePage()
-      this.$vuetify.goTo(this.element)
     }
   }
 }
